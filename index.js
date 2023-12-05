@@ -1,14 +1,18 @@
 const express = require('express');
+require('dotenv').config();
 
 const app = express();
 
-//Routes
-app.get('/', (req, res) => {
-  res.json({
-    ok: true
-  })
-});
+// Show public folder
+app.use(express.static('public'));
 
-app.listen(4000, () => {
-  console.log('Servier listening on port 4000');
+//Routes
+// app.get('/', (req, res) => {
+//   res.json({
+//     ok: true
+//   })
+// });
+
+app.listen(process.env.PORT, () => {
+  console.log(`Servier listening on port ${process.env.PORT}`);
 });
