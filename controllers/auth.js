@@ -40,15 +40,45 @@ const register = async (req, res = response) => {
   }
 }
 
-const login = (req, res = response) => {
+const login = async (req, res = response) => {
   const { email, password } = req.body;
 
-  res.json({
-    ok: true,
-    msg: 'Login',
-    email,
-    password
-  })
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Crendenciales incorrectas'
+      });
+    }
+
+    // Valid password
+    const validPassword = bcrypt.compareSync(password, user.password);
+
+    if (!validPassword) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Crendenciales incorrectas',
+      })
+    }
+
+    // Generate token
+
+    res.json({
+      ok: true,
+      msg: 'Inicio de sesión correcto',
+      user: {
+        uid: user.id,
+        name: user.name,
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: 'Fallo el inicio de sesión',
+    });
+  }
 }
 
 const renewToken = (req, res = response) => {
