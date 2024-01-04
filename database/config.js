@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 const dbConnection = async () => {
   try {
-    mongoose.connect(process.env.DB_CNN, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true
-    });
+    await mongoose.connect(process.env.DB_CNN || '');
 
     console.log('Database online ✅')
   } catch (error) {
