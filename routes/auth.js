@@ -1,16 +1,16 @@
 /**
- * User routes / Auth
+ * Auth routes
  * host + /api/auth
  */
 
 const express = require('express');
 const { check } = require('express-validator');
 
-const router = express.Router();
-
 const { validJwt } = require('../middlewares/validJwt');
 const { validFields } = require('../middlewares/validFields');
 const { register, login, renewToken } = require('../controllers/auth');
+
+const router = express.Router();
 
 router.post(
   '/register',
