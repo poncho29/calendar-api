@@ -96,9 +96,13 @@ const renewToken = async (req, res = response) => {
   const token = await generateJwt(uid, name);
 
   res.json({
+    token,
     ok: true,
     msg: 'Renew Token',
-    token
+    user: {
+      uid,
+      name
+    }
   })
 }
 
